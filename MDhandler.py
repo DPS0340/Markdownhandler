@@ -82,5 +82,7 @@ class Line(Parser):
         self.context = context
     def addhead(self, appendstr):
         self.context += appendstr
+    def link(self, url):
+        self.context = "[" + self.context + "]" + "(" + url + ")"
     def eval(self):
         return self.process(self.context)
