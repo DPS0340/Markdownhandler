@@ -1,6 +1,6 @@
 # Markdownhandler
 
-**Objected oriented markdown writing library - Python Based**
+**Object oriented markdown writing library - Python Based**
 
 
 This means can convert python script using this library to markdown document, not means compile markdown to html.
