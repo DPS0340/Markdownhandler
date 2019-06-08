@@ -1,6 +1,6 @@
 # Markdownhandler
 
-Objected oriented markdown editor - Python Based
+Objected oriented markdown writing library - Python Based
 
 Anyone can commit!
 
