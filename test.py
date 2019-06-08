@@ -19,7 +19,7 @@ l2.bold()
 l2.endl()
 l2.endl()
 
-l3 = Line("Compile by MDhandler")
+l3 = Line("Compiled by MDhandler")
 
 md.append_context(pr)
 md.append_context(l2)
