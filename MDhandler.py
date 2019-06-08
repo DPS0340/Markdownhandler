@@ -40,6 +40,8 @@ class Parser:
             return "\n"
         elif attribute.context == "para":
             return "#"
+        elif attribute.context == "blank":
+            return " "
         else:
             return ""
     def bold(self):
@@ -48,6 +50,10 @@ class Parser:
         self.attributes.append(Attribute("endl", False, True))
     def para(self):
         self.attributes.append(Attribute("para", True, False))
+    def leftBlank(self):
+        self.attributes.append(Attribute("blank", True, False))
+    def rightBlank(self):
+        self.attributes.append(Attribute("blank", False, True))
 
 class Paragraph(Parser):
     def __init__(self, head="", context=[]):
@@ -61,6 +67,7 @@ class Paragraph(Parser):
     def append_context(self, line):
         self.context.append(line)
     def eval(self):
+        self.leftBlank()
         self.para()
         result = ""
         result += self.process(self.head)
