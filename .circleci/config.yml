@@ -3,9 +3,8 @@ version: 2.1
 
 # Use a package of configuration called an orb, see https://circleci.com/docs/2.0/orb-intro/
 jobs:
-  machine:
-    python:
-      version: 3.6.0
+  docker:
+    - image: circleci/python:3.6.4
   test:
     steps:
       - checkout
