@@ -66,6 +66,10 @@ class Parser:
         self.attributes.append(Attribute("[", True, False, True))
         self.attributes.append(Attribute("]", False, True, True))
         self.attributes.append(Attribute("(%s)" % url, False, True, True))
+    def img_link(self, url):
+        self.attributes.append(Attribute("![", True, False, True))
+        self.attributes.append(Attribute("]", False, True, True))
+        self.attributes.append(Attribute("(%s)" % url, False, True, True))
     def linkSelf(self):
         self.attributes.append(Attribute("<", True, False))
         self.attributes.append(Attribute(">", False, True))
