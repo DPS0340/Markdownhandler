@@ -90,6 +90,7 @@ class Line(Parser):
     def eval(self):
         return self.process(self.context)
 
+
 class Paragraph(Line):
     def __init__(self, context=""):
         super().__init__()
@@ -98,12 +99,21 @@ class Paragraph(Line):
         self.para()
 
 
+def fast_loop(func, n):
+    for _ in range(n):
+        func()
+
+
 class copyright:
     def compiledby(self):
         hr = Line("")
         hr.horizonalLine()
         hr.endl()
+        hr.endl()
+        license = Line("License")
+        license.img_link("https://img.shields.io/github/license/DPS0340/Markdownhandler.svg")
         tail = Line("Compiled by ")
         taillink = Line("MDHandler")
         taillink.link_with_context("https://github.com/DPS0340/Markdownhandler")
-        return hr, tail, taillink
+        fast_loop(taillink.endl, 1)
+        return hr, tail, taillink, license

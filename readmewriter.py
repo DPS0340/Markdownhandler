@@ -8,7 +8,8 @@ head.endl()
 codeQuality = Line("Codacy Badge")
 codeQuality.img_link("https://api.codacy.com/project/badge/Grade/7f92603933284dd1a1b7fb1c9edf821c")
 codeQuality.link_with_context("https://www.codacy.com/app/jh001007/Markdownhandler?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=DPS0340/Markdownhandler&amp;utm_campaign=Badge_Grade")
-codeQuality.endl()
+fast_loop(codeQuality.endl, 2)
+
 
 l1 = Line("Object oriented markdown writing library - Python Based")
 l1.bold()
@@ -28,12 +29,5 @@ l4.link_with_context("https://github.com/DPS0340/Markdownhandler/blob/master/TOD
 l4.endl()
 l4.endl()
 
-
-l5 = Line("LICENSE:")
-l5.link_with_context("https://github.com/DPS0340/Markdownhandler/blob/master/TODO.md")
-l6 = Line(" MIT")
-l6.endl()
-l6.endl()
-
-md.append_context([head, codeQuality, l1, l2, l3, l4, l5, l6, copyright().compiledby()])
+md.append_context([head, l1, codeQuality, l2, l3, l4, copyright().compiledby()])
 md.write()
