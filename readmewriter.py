@@ -5,10 +5,11 @@ md = Markdown("README.md")
 head = Paragraph("Markdownhandler")
 head.endl()
 
-codeQuality = Line("Codacy Badge")
-codeQuality.img_link("https://api.codacy.com/project/badge/Grade/7f92603933284dd1a1b7fb1c9edf821c")
-codeQuality.link_with_context("https://www.codacy.com/app/jh001007/Markdownhandler?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=DPS0340/Markdownhandler&amp;utm_campaign=Badge_Grade")
-fast_loop(codeQuality.endl, 2)
+codeQuality = Line("codebeat badge")
+codeQuality.img_link("https://codebeat.co/badges/ad18ec78-fe15-4b73-a02a-5061b4d87a16")
+codeQuality.link_with_context("https://codebeat.co/projects/github-com-dps0340-markdownhandler-master")
+codeQuality.endl()
+codeQuality.endl()
 
 
 l1 = Line("Object oriented markdown writing library - Python Based")
