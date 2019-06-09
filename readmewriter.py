@@ -7,6 +7,7 @@ head.endl()
 
 build = Line("Build")
 build.img_link("https://img.shields.io/circleci/build/github/DPS0340/Markdownhandler.svg?token=11febb5570b8b9620d52497e55b3ef2f68a54357")
+build.link_with_context("https://circleci.com/gh/DPS0340/Markdownhandler")
 
 bl = Line("")
 bl.rightBlank()
