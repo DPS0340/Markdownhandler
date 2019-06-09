@@ -6,8 +6,9 @@ class Markdown:
     def __init__(self, filename=""):
         self.filename = filename
         self.context = []
-    def append_context(self, obj):
-        self.context.append(obj)
+    def append_context(self, *args):
+        for obj in args:
+            self.context.append(obj)
     def write(self):
         result = ""
         for obj in self.context:
@@ -17,43 +18,59 @@ class Markdown:
         return result
 
 class Attribute:
-    def __init__(self, context="", left=False, right=False):
+    def __init__(self, context="", left=False, right=False, lazy=False):
         self.context = context
         self.left = left
         self.right = right
+        self.lazy = lazy
 
 class Parser:
     def __init__(self):
         self.attributes = []
     def process(self, context):
         str = context
+        lazies = []
         for attr in self.attributes:
-            if attr.left:
-                str = self.parse(attr) + str
-            if attr.right:
-                str = str + self.parse(attr)
+            if attr.lazy:
+                lazies.append(attr)
+                continue
+            str = self.parse(str, attr)
+        for lazyattr in lazies:
+            str = self.parse(str, lazyattr)
         return str
-    def parse(self, attribute):
-        if attribute.context == "bold":
-            return "**"
-        elif attribute.context == "endl":
-            return "\n"
-        elif attribute.context == "para":
-            return "#"
-        elif attribute.context == "blank":
-            return " "
-        else:
-            return ""
+    def parse(self, str, attr):
+        if attr.left:
+            str = attr.context + str
+        if attr.right:
+            str = str + attr.context
+        return str
     def bold(self):
-        self.attributes.append(Attribute("bold", True, True))
+        self.attributes.append(Attribute("**", True, True, True))
     def endl(self):
-        self.attributes.append(Attribute("endl", False, True))
+        self.attributes.append(Attribute("\n", False, True, True))
     def para(self):
-        self.attributes.append(Attribute("para", True, False))
+        self.attributes.append(Attribute("#", True, False, True))
     def leftBlank(self):
-        self.attributes.append(Attribute("blank", True, False))
+        self.attributes.append(Attribute(" ", True, False))
     def rightBlank(self):
-        self.attributes.append(Attribute("blank", False, True))
+        self.attributes.append(Attribute(" ", False, True))
+    def strike(self):
+        self.attributes.append(Attribute("~~", True, True, True))
+    def horizonalLine(self):
+        self.attributes.append(Attribute("***", False, True))
+    def link_with_context(self, url):
+        self.attributes.append(Attribute("[", True, False, True))
+        self.attributes.append(Attribute("]", False, True, True))
+        self.attributes.append(Attribute("( %s )" % url, False, True, True))
+    def linkSelf(self):
+        self.attributes.append(Attribute("<", True, False))
+        self.attributes.append(Attribute(">", False, True))
+    def italic(self):
+        self.attributes.append(Attribute("*", True, True, True))
+    def blockQoute(self):
+        self.attributes.append(Attribute("> ", True, False, True))
+
+
 
 class Paragraph(Parser):
     def __init__(self, head="", context=[]):
@@ -64,16 +81,19 @@ class Paragraph(Parser):
         self.head = head
     def addhead(self, appendstr):
         self.head += appendstr
-    def append_context(self, line):
-        self.context.append(line)
+    def append_context(self, *args):
+        for line in args:
+            self.context.append(line)
     def eval(self):
-        self.leftBlank()
-        self.para()
+        if self.head:
+            self.leftBlank()
+            self.para()
         result = ""
         result += self.process(self.head)
         for line in self.context:
             result += line.eval()
         return result
+
 class Line(Parser):
     def __init__(self, context=""):
         super().__init__()
@@ -82,7 +102,14 @@ class Line(Parser):
         self.context = context
     def addhead(self, appendstr):
         self.context += appendstr
-    def link(self, url):
-        self.context = "[" + self.context + "]" + "(" + url + ")"
     def eval(self):
         return self.process(self.context)
+
+def copyright():
+    tailpara = Paragraph()
+    tail = Line("Compiled by ")
+    taillink = Line("MDHandler")
+    tail.blockQoute()
+    taillink.link_with_context("https://github.com/DPS0340/Markdownhandler")
+    tailpara.append_context(tail, taillink)
+    return tailpara

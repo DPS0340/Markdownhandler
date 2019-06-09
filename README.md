@@ -1,6 +1,12 @@
-# Markdownhandler.py
-Objected oriented markdown editor - Python Based
+# Markdownhandler
+> Compiled by [MDHandler]( https://github.com/DPS0340/Markdownhandler )**Object oriented markdown writing library - Python Based**
 
-[TODO](https://github.com/DPS0340/Markdownhandler.py/blob/master/TODO.md)
+This means can convert python script using this library to markdown document, not means compile markdown to html.
 
-[LICENSE](https://github.com/DPS0340/Markdownhandler.py/blob/master/LICENSE): MIT
+Work in Progress - Anyone can commit!
+
+[TODO]( https://github.com/DPS0340/Markdownhandler/blob/master/TODO.md )
+
+[LICENSE:]( https://github.com/DPS0340/Markdownhandler/blob/master/TODO.md ) MIT
+
+> Compiled by [MDHandler]( https://github.com/DPS0340/Markdownhandler )
