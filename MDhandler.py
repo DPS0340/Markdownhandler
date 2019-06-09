@@ -6,13 +6,17 @@ class Markdown:
     def __init__(self, filename=""):
         self.filename = filename
         self.context = []
-    def append_context(self, *args):
+    def append_context(self, args):
         for obj in args:
             self.context.append(obj)
     def write(self):
         result = ""
         for obj in self.context:
-            result += obj.eval()
+            if isinstance(obj, tuple) or isinstance(obj, list):
+                for elem in obj:
+                    result += elem.eval()
+            else:
+                result += obj.eval()
         with open(file=self.filename, mode="w") as w:
             w.write(result)
         return result
@@ -61,7 +65,7 @@ class Parser:
     def link_with_context(self, url):
         self.attributes.append(Attribute("[", True, False, True))
         self.attributes.append(Attribute("]", False, True, True))
-        self.attributes.append(Attribute("( %s )" % url, False, True, True))
+        self.attributes.append(Attribute("(%s)" % url, False, True, True))
     def linkSelf(self):
         self.attributes.append(Attribute("<", True, False))
         self.attributes.append(Attribute(">", False, True))
@@ -70,29 +74,6 @@ class Parser:
     def blockQoute(self):
         self.attributes.append(Attribute("> ", True, False, True))
 
-
-
-class Paragraph(Parser):
-    def __init__(self, head="", context=[]):
-        super().__init__()
-        self.head = head
-        self.context = context
-    def edithead(self, head):
-        self.head = head
-    def addhead(self, appendstr):
-        self.head += appendstr
-    def append_context(self, *args):
-        for line in args:
-            self.context.append(line)
-    def eval(self):
-        if self.head:
-            self.leftBlank()
-            self.para()
-        result = ""
-        result += self.process(self.head)
-        for line in self.context:
-            result += line.eval()
-        return result
 
 class Line(Parser):
     def __init__(self, context=""):
@@ -105,11 +86,20 @@ class Line(Parser):
     def eval(self):
         return self.process(self.context)
 
-def copyright():
-    tailpara = Paragraph()
-    tail = Line("Compiled by ")
-    taillink = Line("MDHandler")
-    tail.blockQoute()
-    taillink.link_with_context("https://github.com/DPS0340/Markdownhandler")
-    tailpara.append_context(tail, taillink)
-    return tailpara
+class Paragraph(Line):
+    def __init__(self, context=""):
+        super().__init__()
+        self.context = context
+        self.leftBlank()
+        self.para()
+
+
+class copyright:
+    def compiledby(self):
+        hr = Line("")
+        hr.horizonalLine()
+        hr.endl()
+        tail = Line("Compiled by ")
+        taillink = Line("MDHandler")
+        taillink.link_with_context("https://github.com/DPS0340/Markdownhandler")
+        return hr, tail, taillink
