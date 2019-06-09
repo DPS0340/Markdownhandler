@@ -3,8 +3,10 @@ version: 2.1
 
 # Use a package of configuration called an orb, see https://circleci.com/docs/2.0/orb-intro/
 jobs:
-  docker:
-    - image: circleci/python:3.6.4
+  build:
+    working_directory: ~/MDhandler
+    docker:
+      - image: circleci/python:3.6.4
   test:
     steps:
       - checkout
@@ -14,8 +16,8 @@ jobs:
             . venv/bin/activate
             pytest -q readmewriter.py
 
-# Orchestrate or schedule a set of jobs, see https://circleci.com/docs/2.0/workflows/
 workflows:
-  tests:
+  build_test:
     jobs:
+      - build
       - test
