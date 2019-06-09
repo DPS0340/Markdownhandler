@@ -35,4 +35,3 @@ l6.endl()
 
 md.append_context([head, l1, l2, l3, l4, l5, l6, copyright().compiledby()])
 md.write()
-print(head is copyright().compiledby())
